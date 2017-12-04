@@ -1,0 +1,39 @@
+---
+layout: page
+title: About
+permalink: /about/
+---
+<style>
+	.profile-photo {
+		display: inline;
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		margin-right: 1em;
+	}
+	.profile-photo, .profile-photo ~ * {
+		vertical-align: middle;
+	}
+</style>
+
+<h2>About this Blog</h2>
+<p>혼자 공부하면서 정리한 것들을 모아놓는 블로그. (2017.12.6 ~)</p>
+
+<h2>About me</h2>
+<p></p>
+<p><img class="profile-photo" src="https://i.imgur.com/C9ZW6Ex.jpg"><span>매우 게으른 사람. </span><del>1일 1포스트를 목적으로 하고있음.</del></p>
+    <p><ul class="about-list">
+		<li>
+			<i class="fa fa-github"></i><a href="https://github.com/{{ site.github_username }}"> Github</a>
+		</li>
+		<li>
+			<i class="fa fa-code"></i><a href="https://www.codeschool.com/users/ttuyon"> Codeschool</a>
+		</li>
+		<li>
+			<i class="fa fa-envelope"></i><a href="mailto:{{ site.email }}?subject=Hello&nbsp;{{ site.name }}"> Email</a>
+		</li>
+	</ul></p>
+
+	{% if site.skillstree %}
+	{% include skillstree.html %}
+	{% endif %}

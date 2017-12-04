@@ -2,17 +2,16 @@
 layout: default
 ---
 
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
+<style>
 
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+.index-content {
+	margin-top: 30%;
+	margin-bottom: 30%;
+	font-size: 18px;
+}
 
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
+</style>
 
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-    </article>
-  {% endfor %}
-</div>
+<center>
+	<p class="index-content">{{ site.title }}<br/>👩🏻‍💻 🐈 🛌 📱 🎧</p>
+</center>
