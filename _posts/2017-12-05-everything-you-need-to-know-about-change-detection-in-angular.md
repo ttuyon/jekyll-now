@@ -36,4 +36,31 @@ angular는 뷰라는 저레벨 추상화를 사용한다. 뷰와 컴포넌트 �
 
 `ChecksEnabled`가 `false`이거나 뷰가 `Errored` 또는 `Destroyed` 상태일 때 뷰와 그 자식 뷰들에 대한 change detection은 생략된다. 기본적으로 모든 뷰들은 `ChangeDetectionStrategy.OnPush`가 사용되지 않는 이상 `ChecksEnabled`상태로 초기화 된다. 더 가서, 상태는 합쳐질 수 있다. 예를들면 뷰는 `FirstCheck`와 `CheckesEnabled`플래그가 함께 가지고 있을 수 있다.
 
-angular는 뷰들을 조작하기 위해 많은 고레벨의 개념들을 가지고 있다. 그중의 하나는 `ViewRef`이다. 
+angular는 뷰들을 조작하기 위해 많은 고레벨의 개념들을 가지고 있다. 그중의 하나는 ViewRef이다. ViewRef는 하위의 컴포넌트 뷰를 캡슐화 하고, detectChanges라는 적절한 이름의 메소드를 가지고 있다. 비동기 이벤트가 일어나면, 앵귤러는 그것의 최상위 ViewRef에 change detection을 발생시킨다. 이 ViewRef는 자신에 대한 change detection을 실행한 후에 자식 뷰들에 대한 change detection을 실행한다.
+
+이 `ViewRef`는 `ChangeDetectorRef` 토큰을 사용하여 컴포넌트 생성자에 주입 할 수 있다.
+
+```typescript
+export class AppComponent {
+    constructor(cd: ChangeDetectorRef) { ... }
+```
+
+## change detection 작업
+
+뷰에 대한 change detection 실행의 책임이 있는 주요 로직은 checkAndUpdateView 함수에 존재한다. checkAndUpdateView의 대부분의 기능은 자식 컴포넌트 뷰에 대한 작업을 수행한다. 이 함수는 호스트 컴포넌트부터 시작하여 각 컴포넌트에 재귀적으로 호출된다. 이것은 자식 컴포넌트는 다음 호출의 부모 컴포넌트가 된다는 것을 의미한다.
+
+이 함수가 각각의 뷰들에 트리거 됐을때, 다음의 작업들은 순서대로 수행한다.
+
+1. 만약 뷰가 맨 처음 체크된다면`ViewState.firstCheck`를 `true`로 셋팅하고, 전에 이미 체크됐다면 `false`로 셋팅한다.
+2. 자식 컴포넌트와 디렉티브 인스턴스의 input 프로퍼티를 체크하고 업데이트 한다.
+3. 자식 뷰의 change detection 상태를 체크한다. (change detection 전략 구현의 일부)
+4. 속한 뷰들에 대한 change detection을 수행한다. (목록의 단계들을 반복)
+5. 만약 바인딩이 바뀌었다면 자식 컴포넌트의 `OnChanges` 생명주기 훅을 호출한다.
+6. 자식 컴포넌트의 `OnInit`과 `ngDoCheck`를 호출한다. (`OnInit`은 첫 체크동안만 호출)
+7. 자식 뷰의 컴포넌트 인스턴스의 `ContentChildren` 쿼리 목록을 업데이트한다.
+8. 자식 컴포넌트 인스턴스의 `AfterContentInit`과 `AfterContentChecked` 생명주기 훅을 호출한다. (`AfterContentInit`은 첫 체크동안만 호출)
+9. 만약 **현재 뷰** 컴포넌트 인스턴스의 프로퍼티가 바뀌었다면 **현재 뷰**의 DOM interpolation을 업데이트한다.
+10. 자식 뷰들에 대한 change detection을 수행한다. (목록의 단계들을 반복)
+11. 현재 뷰 컴포넌트 인스턴스의 `ViewChildren` 쿼리 목록을 업데이트한다.
+12. 자식 컴포넌트 인스턴스의 `AfterViewInit`과 `AfterViewChecked` 생명주기 훅을 호출한다. (`AfterViewInit`은 첫 체크동안만 호출)
+13. 현재 뷰의 체크를 불가하게 한다. (change  detection 전략 구현의 일부)
