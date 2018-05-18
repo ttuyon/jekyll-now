@@ -12,7 +12,7 @@ github_username: ttuyon # your Github username
 
 #google-analytics: UA-75034651-1 # add it if you have one
 
-skillstree: true # turn on or off the skills tree in about page
+skillstree: false # turn on or off the skills tree in about page
 
 # Build settings
 permalink: none
