@@ -4,7 +4,7 @@ title: "Javascript는 어떻게 작동하는가"
 subtitle: "V8 엔진 들여다보기"
 date: 2018-03-24
 author: ttuyon
-category: study - Javascript
+category: study
 tags: javascript v8-engine
 finished: false
 ---

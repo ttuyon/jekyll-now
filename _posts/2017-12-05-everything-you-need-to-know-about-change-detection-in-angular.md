@@ -4,7 +4,7 @@ title: "Angular의 Change Detection에 대해 알아야 하는 것들"
 subtitle: "내부 구현과 이용 사례에 대한 탐구"
 date: 2017-12-05
 author: ttuyon
-category: study - angular
+category: study
 tags: angular
 finished: false
 ---
