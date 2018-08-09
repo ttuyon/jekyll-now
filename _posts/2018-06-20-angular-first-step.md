@@ -69,7 +69,7 @@ rectangle(a: number, b: number): number {
 }
 
 <span style="color:#aeaeae;font-style:italic">// javascript 최신 문법 -> 축약형</span>
-<span style="color:#99cf50">const</span> rectangle <span style="color:#e28964">=</span> (width, height) <span style="color:#e28964">=</span><span style="color:#e28964">></span> width <span style="color:#e28964">*</span> height;
+<span style="color:#99cf50">const</span> getRectangleArea <span style="color:#e28964">=</span> (width, height) <span style="color:#e28964">=</span><span style="color:#e28964">></span> width <span style="color:#e28964">*</span> height;
 
 <span style="color:#aeaeae;font-style:italic">// typescript</span>
 getRectangleArea(width: number, height: number): number {
